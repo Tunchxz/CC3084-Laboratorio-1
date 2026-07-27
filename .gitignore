@@ -1,0 +1,28 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Datos crudos (uso exclusivamente académico, no se versionan )
+data/raw/*
+!data/raw/.gitkeep
+
+# Datos procesados (son automáticamente generados, no se versionan)
+data/processed/*
+!data/processed/.gitkeep
+
+# Sistema
+.DS_Store
+
+# IA
+.claude
+.agents
+skills*
