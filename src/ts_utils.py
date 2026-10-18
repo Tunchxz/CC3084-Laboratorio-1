@@ -242,8 +242,11 @@ def seasonal_naive_forecast(train: pd.Series, pasos: int, periodo: int = 12) -> 
     return np.tile(ultimo_ciclo, reps)[:pasos]
 
 
-def fit_prophet_model(train: pd.Series, pasos: int):
-    """Ajusta Prophet; retorna (forecast_values, componentes) o (None, None) si no está disponible."""
+def fit_prophet_model(train: pd.Series, pasos: int, intervalo: float = 0.80):
+    """Ajusta Prophet; retorna (forecast_values, componentes) o (None, None) si no está disponible.
+
+    `intervalo` es el ancho del intervalo de predicción (`yhat_lower`, `yhat_upper`).
+    """
     try:
         from prophet import Prophet
     except ImportError:
@@ -251,7 +254,8 @@ def fit_prophet_model(train: pd.Series, pasos: int):
         return None, None
 
     df_train = pd.DataFrame({"ds": train.index, "y": train.values})
-    modelo = Prophet(yearly_seasonality=True, weekly_seasonality=False, daily_seasonality=False)
+    modelo = Prophet(yearly_seasonality=True, weekly_seasonality=False, daily_seasonality=False,
+                     interval_width=intervalo)
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         modelo.fit(df_train)
